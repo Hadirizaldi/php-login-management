@@ -5,7 +5,7 @@ namespace Hadirizaldi\PhpMvc\Repositories;
 use Hadirizaldi\PhpMvc\Domain\User;
 
 
-class UserRepositoryImpl extends UserRepository
+class UserRepositoryImpl implements UserRepository
 {
   private \PDO $connection;
 
@@ -19,9 +19,9 @@ class UserRepositoryImpl extends UserRepository
     $sql = "INSERT INTO users (id, name, password) 
             VALUES (:id, :name, :password)";
     $statment = $this->connection->prepare($sql);
-    $statment->bindParam(':id', $user->getId());
-    $statment->bindParam(':name', $user->getName());
-    $statment->bindParam(':password', $user->getPassword());
+    $statment->bindValue(':id', $user->getId());
+    $statment->bindValue(':name', $user->getName());
+    $statment->bindValue(':password', $user->getPassword());
     $statment->execute();
 
     return $user;

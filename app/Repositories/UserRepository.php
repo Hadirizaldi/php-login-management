@@ -6,7 +6,7 @@ use Hadirizaldi\PhpMvc\Domain\User;
 
 interface UserRepository
 {
-  public function save(): User;
-  public function findById(): ?User;
+  public function save(User $user): User;
+  public function findById(string $id): ?User;
   public function deleteAll(): bool;
 }
