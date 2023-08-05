@@ -5,6 +5,7 @@ namespace Hadirizaldi\PhpMvc\Controller;
 use Hadirizaldi\PhpMvc\App\View;
 use Hadirizaldi\PhpMvc\Config\Database;
 use Hadirizaldi\PhpMvc\Exceptions\ValidationException;
+use Hadirizaldi\PhpMvc\Models\UserLoginRequest;
 use Hadirizaldi\PhpMvc\Models\UserRegisterRequest;
 use Hadirizaldi\PhpMvc\Repositories\UserRepositoryImpl;
 use Hadirizaldi\PhpMvc\Services\UserServiceImpl;
@@ -58,6 +59,41 @@ class UserController
           'error' => $e->getMessage()
         ]
       );
+    }
+  }
+
+  // menampilkan halaman dari login
+  public function login()
+  {
+    View::render("User/Login", [
+      'title' => 'Halaman Login',
+    ]);
+  }
+
+  // menampilkan aksi dari login
+  public function postLogin()
+  {
+    // tangkap data dari form login
+    $fromData = [
+      'id' => $_POST['id'],
+      'password' => $_POST['password'],
+    ];
+
+    $request = new UserLoginRequest(
+      $fromData['id'],
+      $fromData['password']
+    );
+
+    try {
+      // jika berhasil
+      $this->userService->login($request);
+      View::redirect('/');
+    } catch (ValidationException $e) {
+      // jika gagal
+      View::render("User/Login", [
+        'title' => 'Halaman Login',
+        'error' => $e->getMessage()
+      ]);
     }
   }
 }
