@@ -2,6 +2,8 @@
 
 namespace Hadirizaldi\PhpMvc\Models;
 
+use Hadirizaldi\PhpMvc\Exceptions\ValidationException;
+
 abstract class UserRequest
 {
   protected ?string $id;
@@ -22,5 +24,15 @@ abstract class UserRequest
   public function getPassword(): ?string
   {
     return $this->password;
+  }
+
+  // function untuk validation data
+  abstract public function validate(): void;
+
+  protected function validateRequiredField(?string $fieldValue, string $fieldName): void
+  {
+    if ($fieldValue === null || trim($fieldValue) === '') {
+      throw new ValidationException("$fieldName field can't be blank!");
+    }
   }
 }

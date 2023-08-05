@@ -4,8 +4,9 @@ namespace Hadirizaldi\PhpMvc\Models;
 
 class UserLoginRequest extends UserRequest
 {
-  public function __construct(string $id = null, string $password = null)
+  public function validate(): void
   {
-    parent::__construct($id, $password);
+    $this->validateRequiredField($this->getId(), 'Id');
+    $this->validateRequiredField($this->getPassword(), 'Password');
   }
 }

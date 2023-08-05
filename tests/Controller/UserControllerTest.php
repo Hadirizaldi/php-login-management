@@ -49,7 +49,7 @@ namespace Hadirizaldi\PhpMvc\Controller {
     public function testPostRegisterValidationError()
     {
       $_POST['id'] = '';
-      $_POST['name'] = 'Aldi';
+      $_POST['name'] = '';
       $_POST['password'] = '';
 
       $this->userController->postRegister();
@@ -59,7 +59,8 @@ namespace Hadirizaldi\PhpMvc\Controller {
       $this->expectOutputRegex("[Name]");
       $this->expectOutputRegex("[Password]");
       $this->expectOutputRegex("[Register new User]");
-      $this->expectOutputRegex("[Id, Name, Password can't blank !!]");
+      // $this->expectOutputRegex("[Id, Name, Password can't blank !!]");
+      $this->expectOutputRegex("[Id field can't be blank! ]");
     }
 
     public function testPostRegisterDuplicate()

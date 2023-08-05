@@ -6,7 +6,7 @@ class UserRegisterRequest extends UserRequest
 {
   private ?string $name;
 
-  public function __construct(string $id = null, string $name = null, string $password = null)
+  public function __construct(string $id, string $name = null, string $password)
   {
     UserRequest::__construct($id, $password);
     $this->name = $name;
@@ -16,5 +16,12 @@ class UserRegisterRequest extends UserRequest
   public function getName(): ?string
   {
     return $this->name;
+  }
+
+  public function validate(): void
+  {
+    $this->validateRequiredField($this->getId(), 'Id');
+    $this->validateRequiredField($this->getName(), 'Name');
+    $this->validateRequiredField($this->getPassword(), 'Password');
   }
 }

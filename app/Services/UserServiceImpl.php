@@ -21,30 +21,10 @@ class UserServiceImpl implements UserService
     $this->userRepository = $userRepository;
   }
 
-  private function validateUserRegister(UserRegisterRequest $request): void
-  {
-    if (
-      $request->getId() == null || $request->getName() == null || $request->getPassword() == null ||
-      trim($request->getId()) == null || trim($request->getName()) == null || trim($request->getPassword()) == null
-    ) {
-      throw new ValidationException("Id, Name, Password can't blank !!");
-    }
-  }
-
-  private function validateUserLogin(UserLoginRequest $request): void
-  {
-    if (
-      $request->getId() == null || $request->getPassword() == null ||
-      trim($request->getId()) == null || trim($request->getPassword()) == null
-    ) {
-      throw new ValidationException("Id, Password can't blank !!");
-    }
-  }
-
   public function register(UserRegisterRequest $request): UserRegisterResponse
   {
-    // Todo: validate
-    $this->validateUserRegister($request);
+    // Todo: validate dari Model
+    $request->validate();
 
     try {
 
@@ -77,8 +57,8 @@ class UserServiceImpl implements UserService
 
   public function login(UserLoginRequest $request): UserLoginResponse
   {
-    // Todo : validate
-    $this->validateUserLogin($request);
+    // Todo : validate dari Model
+    $request->validate();
 
     $user = $this->userRepository->findById($request->getId());
     if ($user == null) {
@@ -94,4 +74,24 @@ class UserServiceImpl implements UserService
       throw new ValidationException("Id or password is wrong");
     }
   }
+
+  // private function validateUserRegister(UserRegisterRequest $request): void
+  // {
+  //   if (
+  //     $request->getId() == null || $request->getName() == null || $request->getPassword() == null ||
+  //     trim($request->getId()) == null || trim($request->getName()) == null || trim($request->getPassword()) == null
+  //   ) {
+  //     throw new ValidationException("Id, Name, Password can't blank !!");
+  //   }
+  // }
+
+  // private function validateUserLogin(UserLoginRequest $request): void
+  // {
+  //   if (
+  //     $request->getId() == null || $request->getPassword() == null ||
+  //     trim($request->getId()) == null || trim($request->getPassword()) == null
+  //   ) {
+  //     throw new ValidationException("Id, Password can't blank !!");
+  //   }
+  // }
 }
