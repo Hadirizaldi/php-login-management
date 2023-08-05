@@ -2,11 +2,9 @@
 
 namespace Hadirizaldi\PhpMvc\Models;
 
-class UserRegisterRequest
+class UserRegisterRequest extends UserRequest
 {
-  private ?string $id;
   private ?string $name;
-  private ?string $password;
 
   public function __construct(string $id = null, string $name = null, string $password = null)
   {
@@ -15,19 +13,9 @@ class UserRegisterRequest
     $this->password = $password;
   }
 
-  // Getter methods
-  public function getId(): string
-  {
-    return $this->id;
-  }
-
-  public function getName(): string
+  // Getter method
+  public function getName(): ?string
   {
     return $this->name;
-  }
-
-  public function getPassword(): string
-  {
-    return $this->password;
   }
 }

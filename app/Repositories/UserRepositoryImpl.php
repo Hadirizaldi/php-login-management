@@ -35,7 +35,6 @@ class UserRepositoryImpl implements UserRepository
     $statment->execute();
 
     // $statment->fetchObject(User::class);
-
     try {
 
       if ($row = $statment->fetch()) {

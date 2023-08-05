@@ -2,6 +2,6 @@
 
 namespace Hadirizaldi\PhpMvc\Models;
 
-class UserRegisterResponse extends UserResponse
+class UserLoginResponse extends UserResponse
 {
 }

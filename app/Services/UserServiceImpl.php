@@ -8,6 +8,8 @@ use Hadirizaldi\PhpMvc\Repositories\UserRepository;
 use Hadirizaldi\PhpMvc\Models\UserRegisterRequest;
 use Hadirizaldi\PhpMvc\Models\UserRegisterResponse;
 use Hadirizaldi\PhpMvc\Domain\User;
+use Hadirizaldi\PhpMvc\Models\UserLoginRequest;
+use Hadirizaldi\PhpMvc\Models\UserLoginResponse;
 
 class UserServiceImpl implements UserService
 {
@@ -26,6 +28,16 @@ class UserServiceImpl implements UserService
       trim($request->getId()) == null || trim($request->getName()) == null || trim($request->getPassword()) == null
     ) {
       throw new ValidationException("Id, Name, Password can't blank !!");
+    }
+  }
+
+  private function validateUserLogin(UserLoginRequest $request): void
+  {
+    if (
+      $request->getId() == null || $request->getPassword() == null ||
+      trim($request->getId()) == null || trim($request->getPassword()) == null
+    ) {
+      throw new ValidationException("Id, Password can't blank !!");
     }
   }
 
@@ -60,6 +72,26 @@ class UserServiceImpl implements UserService
     } catch (\Exception $e) {
       Database::rollbackTransaction();
       throw $e;
+    }
+  }
+
+  public function login(UserLoginRequest $request): UserLoginResponse
+  {
+    // Todo : validate
+    $this->validateUserLogin($request);
+
+    $user = $this->userRepository->findById($request->getId());
+    if ($user == null) {
+      throw new ValidationException("Id or password is wrong");
+    }
+
+    if (password_verify($request->getPassword(), $user->getPassword())) {
+      // jika berhasil validation Id dan password
+      $response = new UserLoginResponse($user);
+
+      return $response;
+    } else {
+      throw new ValidationException("Id or password is wrong");
     }
   }
 }
