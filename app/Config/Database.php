@@ -17,6 +17,25 @@ class Database
     return self::$connection;
   }
 
+  // config database
+  private static function getDatabaseConfig(): array
+  {
+    return [
+      "database" => [
+        "test" => [
+          "url" => "mysql:host=localhost:3306;dbname=php_login_management_test",
+          "username" => "megatron",
+          "password" => "Megatron-111213"
+        ],
+        "prod" => [
+          "url" => "mysql:host=localhost:3306;dbname=php_login_management",
+          "username" => "megatron",
+          "password" => "Megatron-111213"
+        ]
+      ]
+    ];
+  }
+
   private static function createConnection($env = "test"): \PDO
   {
     $config = self::getDatabaseConfig();
@@ -39,22 +58,18 @@ class Database
     }
   }
 
-  // config database
-  private static function getDatabaseConfig(): array
+  public static function beginTransaction(): void
   {
-    return [
-      "database" => [
-        "test" => [
-          "url" => "mysql:host=localhost:3306;dbname=php_login_management_test",
-          "username" => "megatron",
-          "password" => "Megatron-111213"
-        ],
-        "prod" => [
-          "url" => "mysql:host=localhost:3306;dbname=php_login_management",
-          "username" => "megatron",
-          "password" => "Megatron-111213"
-        ]
-      ]
-    ];
+    self::$connection->beginTransaction();
+  }
+
+  public static function commitTransaction(): void
+  {
+    self::$connection->commit();
+  }
+
+  public static function rollbackTransaction(): void
+  {
+    self::$connection->rollBack();
   }
 }
