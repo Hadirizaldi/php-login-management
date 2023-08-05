@@ -33,12 +33,11 @@ class UserServiceImpl implements UserService
   {
     // Todo: validate
     $this->validateUserRegister($request);
-    $user = $this->userRepository->findById($request->getId());
 
     try {
 
       Database::beginTransaction();
-
+      $user = $this->userRepository->findById($request->getId());
       if ($user != null) {
         throw new ValidationException("User ID already exist");
       }
@@ -48,6 +47,9 @@ class UserServiceImpl implements UserService
       $name = $request->getName();
       $password = password_hash($request->getPassword(), PASSWORD_BCRYPT);
       $user = new User($id, $name, $password);
+
+      // save user
+      $this->userRepository->save($user);
 
       // kembalikan response
       $response = new UserRegisterResponse($user);

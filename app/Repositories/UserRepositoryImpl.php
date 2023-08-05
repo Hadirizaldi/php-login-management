@@ -4,7 +4,6 @@ namespace Hadirizaldi\PhpMvc\Repositories;
 
 use Hadirizaldi\PhpMvc\Domain\User;
 
-
 class UserRepositoryImpl implements UserRepository
 {
   private \PDO $connection;
