@@ -6,7 +6,6 @@ class UserLoginRequest extends UserRequest
 {
   public function __construct(string $id = null, string $password = null)
   {
-    $this->id = $id;
-    $this->password = $password;
+    parent::__construct($id, $password);
   }
 }

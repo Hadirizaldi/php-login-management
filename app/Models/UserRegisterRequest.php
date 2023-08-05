@@ -8,9 +8,8 @@ class UserRegisterRequest extends UserRequest
 
   public function __construct(string $id = null, string $name = null, string $password = null)
   {
-    $this->id = $id;
+    UserRequest::__construct($id, $password);
     $this->name = $name;
-    $this->password = $password;
   }
 
   // Getter method
